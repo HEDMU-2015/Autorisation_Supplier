@@ -1,5 +1,7 @@
 package domain;
 
+import java.security.NoSuchAlgorithmException;
+
 public interface User {
 
 	String getEmail();
@@ -13,5 +15,9 @@ public interface User {
 	String getEncryptedPassword();
 
 	void setEncryptedPassword(String password);
+
+	void setAndEncryptPassword(String password) throws NoSuchAlgorithmException;
+	
+
 
 }

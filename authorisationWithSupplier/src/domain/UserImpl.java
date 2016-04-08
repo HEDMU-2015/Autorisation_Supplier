@@ -43,16 +43,16 @@ public class UserImpl implements User {
 		return encryptedPassword;
 	}
 
-	
 	@Override
-	public void setEncryptedPassword(String password) {
-		this.encryptedPassword = password;
+	public void setEncryptedPassword(String encryptedPassword) {
+		this.encryptedPassword = encryptedPassword;
 	}
 	
+	@Override
 	public void setAndEncryptPassword(String password) throws NoSuchAlgorithmException {
 		this.encryptedPassword = encrypt(password);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "UserImpl [email=" + email + ", password=" + encryptedPassword + "]";

@@ -37,7 +37,7 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public void createOrganisation(Organisation organisation) {
-		DataAccess dataAccess = null;
+		DataAccess dataAccess = new DataAccessImpl();
 
 		new LogicTrans<Organisation>(dataAccess)
 		.transaction(d -> organisationCrud.create(dataAccess, d), organisation);
@@ -46,7 +46,7 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public void deleteOrganisation(Organisation organisation) {
-		DataAccess dataAccess = null;
+		DataAccess dataAccess = new DataAccessImpl();
 		new LogicTrans<Organisation>(dataAccess)
 		.transaction(d -> organisationCrud.delete(dataAccess, d), organisation);
 
@@ -73,7 +73,7 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public void createUser(User user) {
-		DataAccess dataAccess = null;
+		DataAccess dataAccess = new DataAccessImpl();
 		new LogicTrans<User>(dataAccess)
 		.transaction(d -> userMapper.createUser(d, dataAccess), user);
 
@@ -81,7 +81,7 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public void deleteUser(User user) {
-		DataAccess dataAccess = null;
+		DataAccess dataAccess = new DataAccessImpl();
 		new LogicTrans<User>(dataAccess)
 		.transaction(d -> userMapper.deleteUser(d, dataAccess), user);
 	}

@@ -86,7 +86,6 @@ public class UserMapperImpl implements UserMapper{
 			statement.setString(1, user.getEncryptedPassword());
 			statement.setString(2, user.getEmail());
 			statement.execute();
-			statement.close();
 		} catch (SQLException exc) {
 			throw new PersistenceFailureException("Query has failed");
 		} finally {
