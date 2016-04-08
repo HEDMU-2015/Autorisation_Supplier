@@ -32,7 +32,7 @@ public class SecurityAPIImpl implements SecurityAPI {
 		return new LogicTrans<Boolean>(da).transaction(()->checkUser(userId, encryptedPassword));	
 	}
 	
-	private Boolean checkUser(String userId, String encryptedPassword) {
+	private boolean checkUser(String userId, String encryptedPassword) {
 		boolean loginChecked = false;
 		DataAccess dataAccess =  new DataAccessImpl();		
 

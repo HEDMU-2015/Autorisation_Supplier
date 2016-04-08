@@ -65,7 +65,6 @@ public class UserMapperImpl implements UserMapper{
 				User user1 = new UserImpl();
 				user1.setEmail(resultSet.getString("email"));
 				user1.setEncryptedPassword(resultSet.getString("password"));
-				user1.setLogin(resultSet.getBoolean("login"));
 				user = Optional.of(user1);
 			}
 		} catch (SQLException exc) {
