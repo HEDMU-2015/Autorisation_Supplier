@@ -1,2 +1,2 @@
 # Autorisation_Supplier
-Autorisation + Supplier lamda
+Autorisation + Supplier lambda
