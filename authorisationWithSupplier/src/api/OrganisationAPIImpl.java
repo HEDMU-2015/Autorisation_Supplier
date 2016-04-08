@@ -20,14 +20,14 @@ public class OrganisationAPIImpl implements OrganisationAPI {
 			throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
 		return new LogicTrans<List<Organisation>>(dataAccess).transaction(()-> organisationMapper.getChildren(organisationID, dataAccess));
-	
+
 	}
 
 	@Override
 	public List<Organisation> getOrganisationWithNoParents() throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
 		return new LogicTrans<List<Organisation>>(dataAccess).transaction(()-> organisationMapper.getOrganisationWithNoParents(dataAccess));
-	
+
 	}
 
 	@Override
@@ -40,14 +40,24 @@ public class OrganisationAPIImpl implements OrganisationAPI {
 	public Optional<Organisation> getOrganizationUnit(int organisationId) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
 		return new LogicTrans<Optional<Organisation>>(dataAccess).transaction(()-> organisationMapper.getOrganizationUnit(organisationId, dataAccess));
-	
+
 	}
 
 	@Override
 	public List<Organisation> searchOrganization(String search)
 			throws PersistenceFailureException {
-		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<List<Organisation>>(dataAccess).transaction(()-> organisationMapper.searchOrganization(search, dataAccess));
-	
+		DataAccess dataAccess =  new DataAccessImpl();	
+		if(search.length() >= 3){
+			return new LogicTrans<List<Organisation>>(dataAccess).transaction(()-> organisationMapper.searchOrganization(search, dataAccess));
+		} else {
+			throw new RuntimeException("Search String is too short.");
+		}	
 	}	
 }
+
+//private String searchStringCheck(String search){
+//	if(search.length() >= 3){
+//		return search;
+//	}else{
+//		return null;
+//	}

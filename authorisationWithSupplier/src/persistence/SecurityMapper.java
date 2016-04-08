@@ -12,12 +12,10 @@ import exception.PersistenceFailureException;
 public interface SecurityMapper {
 public List<UserPermission> fetchAllUserPermissions(String email, DataAccess dataAccess) throws PersistenceFailureException;
 	
- 	public boolean login(String userId, String encryptedPassword, DataAccess dataAccess) throws PersistenceFailureException;  
+ 	public Optional<Boolean> login	(String userId, String encryptedPassword, DataAccess dataAccess) throws PersistenceFailureException;  
  	 
  	public Optional<User> getUser(String userId, DataAccess dataAccess) throws PersistenceFailureException; 
- 	 
- 	public String getIdOfUserLoggedIn(DataAccess dataAccess) throws PersistenceFailureException; 
- 	 
+ 	  	 
  	public Optional<Permission> getPermission(int permissionId, DataAccess dataAccess) throws PersistenceFailureException; 
  
  	public Optional<Permission> getPermission(String permissionName, DataAccess dataAccess) throws PersistenceFailureException; 

@@ -4,20 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import domain.Organisation;
-import domain.OrganisationImpl;
 import domain.Permission;
-import domain.PermissionImpl;
 import domain.User;
 import domain.UserImpl;
 import domain.UserPermission;
-import domain.UserPermissionImpl;
 import exception.PersistenceFailureException;
 import persistence.DataAccess;
 import persistence.DataAccessImpl;
 import persistence.SecurityMapper;
 import persistence.SecurityMapperImpl;
-import util.CleanUpforSQL;
 import util.LogicTrans;
+import util.LoginSingleton;
 
 public class SecurityAPIImpl implements SecurityAPI {
 	SecurityMapper securityMapper = new SecurityMapperImpl();
@@ -30,10 +27,25 @@ public class SecurityAPIImpl implements SecurityAPI {
 	}
 
 	@Override
-	public boolean login(String userId, String encryptedPassword) throws PersistenceFailureException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean login(String userId, String encryptedPassword) throws PersistenceFailureException {		
+		DataAccess da = new DataAccessImpl();
+		return new LogicTrans<Boolean>(da).transaction(()->checkUser(userId, encryptedPassword));	
 	}
+	
+	private Boolean checkUser(String userId, String encryptedPassword) {
+		boolean loginChecked = false;
+		DataAccess dataAccess =  new DataAccessImpl();		
+
+		Optional<User> loginUser = securityMapper.getUser(encryptedPassword, dataAccess);
+		if (loginUser.isPresent()) {
+			loginChecked = true;
+			User user = new UserImpl();
+			user.setEmail(userId);
+			LoginSingleton.instance().setUser(user);
+		}
+		return loginChecked;
+		
+	} 
 
 	@Override
 	public Optional<User> getUser(String userId) throws PersistenceFailureException {
@@ -44,8 +56,7 @@ public class SecurityAPIImpl implements SecurityAPI {
 
 	@Override
 	public String getIdOfUserLoggedIn() throws PersistenceFailureException {
-		// TODO Auto-generated method stub
-		return null;
+		return LoginSingleton.instance().getUser().getEmail();
 	}
 
 	@Override

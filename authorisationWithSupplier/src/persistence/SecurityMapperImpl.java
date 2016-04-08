@@ -24,8 +24,7 @@ public class SecurityMapperImpl implements SecurityMapper {
 	private final static String GET_USER = "SELECT * FROM user WHERE email = ?";
 	private final static String GET_PERMISSION_BY_ID = "SELECT * FROM permission where id = ?";
 	private final static String GET_PERMISSION_BY_NAME = "SELECT * FROM permission where name = ?";
-	private final static String SET_LOGGED_IN = "UPDATE user SET LOGIN = ? WHERE email = ? AND password = ?";
-	private final static String ID_OF_USER = "SELECT email FROM user WHERE login = true";
+	private final static String LOGIN_CHECK = "SELECT * FROM user WHERE email = ? AND password = ?";
 	private final static String ORGANISATION_FOR_USER = "SELECT email, organisationid FROM userpermission "
 			+ "where email = ? AND id = ?";
 	private final static String CHECK_USER_ACCESS = "SELECT * FROM userpermission where email = ? AND permissionid = ? AND organisationid = ?";
@@ -65,23 +64,27 @@ public class SecurityMapperImpl implements SecurityMapper {
 	}
 
 	@Override
-	public boolean login(String userId, String encryptedPassword, DataAccess dataAccess)
+	public Optional<Boolean> login(String userId, String encryptedPassword, DataAccess dataAccess)
 			throws PersistenceFailureException {
 		PreparedStatement statement = null;
-		User user = new UserImpl();
+		ResultSet resultSet = null;
+		Optional<Boolean> user = Optional.of(false); 
+
 		try {
-			statement = dataAccess.getConnection().prepareStatement(SET_LOGGED_IN);
-			statement.setBoolean(1, true);
-			statement.setString(2, userId);
-			statement.setString(3, encryptedPassword);
-			statement.execute();
-			user.setLogin(true);
-			return user.isLogin();
+			statement = dataAccess.getConnection().prepareStatement(LOGIN_CHECK);
+			statement.setString(1, userId);
+			statement.setString(2, encryptedPassword);
+			resultSet = statement.executeQuery();
+			if(resultSet.next()){
+				user = Optional.of(true);
+			}
+			
 		} catch (SQLException exc) {
 			throw new PersistenceFailureException("Query has failed");
 		} finally {
 			cleanup.cleanup(statement);
 		}
+		return user;
 	}
 
 	@Override
@@ -108,25 +111,7 @@ public class SecurityMapperImpl implements SecurityMapper {
 		return user;
 	}
 
-	@Override
-	public String getIdOfUserLoggedIn(DataAccess dataAccess) throws PersistenceFailureException {
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		String userID = null;
-		try {
-			statement = dataAccess.getConnection().prepareStatement(ID_OF_USER);
-			resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				userID = resultSet.getString("email");
-			}
-			return userID;
-		} catch (SQLException exc) {
-			throw new PersistenceFailureException("Query has failed");
-		} finally {
-			cleanup.cleanup(resultSet, statement);
-		}
-	}
-
+	
 	@Override
 	public Optional<Permission> getPermission(int permissionId, DataAccess dataAccess) throws PersistenceFailureException {
 		PreparedStatement statement = null;
