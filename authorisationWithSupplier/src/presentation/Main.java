@@ -30,20 +30,19 @@ public class Main {
 	Controller controller = new ControllerImpl();
 	User user = new UserImpl();
 //	
-//	user.setEmail("jesp@me.com");
-//	try {
-//		user.setAndEncryptPassword("123");
-//	} catch (NoSuchAlgorithmException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-//	
+	user.setEmail("jesp@me.com");
+	try {
+		user.setAndEncryptPassword("123");
+	} catch (NoSuchAlgorithmException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	System.out.println(user.getEncryptedPassword());
 //	System.out.println(user);
 //	System.out.println(user.getEncryptedPassword());	
 //	controller.createUser(user);
 	
-	
-	
-	
+System.out.println(securityAPI.login(user.getEmail(), user.getEncryptedPassword()));	
+System.out.println(securityAPI.getIdOfUserLoggedIn());
 	}
 }

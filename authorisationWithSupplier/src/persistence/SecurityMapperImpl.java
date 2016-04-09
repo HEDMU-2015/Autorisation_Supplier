@@ -64,7 +64,7 @@ public class SecurityMapperImpl implements SecurityMapper {
 	}
 
 	@Override
-	public Optional<Boolean> login(String userId, String encryptedPassword, DataAccess dataAccess)
+	public Optional<Boolean> login(String email, String encryptedPassword, DataAccess dataAccess)
 			throws PersistenceFailureException {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -72,7 +72,7 @@ public class SecurityMapperImpl implements SecurityMapper {
 
 		try {
 			statement = dataAccess.getConnection().prepareStatement(LOGIN_CHECK);
-			statement.setString(1, userId);
+			statement.setString(1, email);
 			statement.setString(2, encryptedPassword);
 			resultSet = statement.executeQuery();
 			if(resultSet.next()){

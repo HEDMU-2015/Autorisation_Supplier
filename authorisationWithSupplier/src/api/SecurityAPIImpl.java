@@ -33,18 +33,26 @@ public class SecurityAPIImpl implements SecurityAPI {
 	}
 	
 	private boolean checkUser(String userId, String encryptedPassword) {
-		boolean loginChecked = false;
+		//boolean loginChecked = false;
 		DataAccess dataAccess =  new DataAccessImpl();		
 
-		Optional<User> loginUser = securityMapper.getUser(encryptedPassword, dataAccess);
-		if (loginUser.isPresent()) {
-			loginChecked = true;
+//		Optional<User> loginUser = securityMapper.getUser(encryptedPassword, dataAccess);
+		Optional<Boolean> loginChecked = securityMapper.login(userId, encryptedPassword, dataAccess);
+//		if (loginUser.isPresent()) {
+//			loginChecked = true;
+//			User user = new UserImpl();
+//			user.setEmail(userId);
+//			LoginSingleton.instance().setUser(user);
+//		}
+//		return loginChecked;
+//		
+		if(loginChecked.get()==true){
 			User user = new UserImpl();
 			user.setEmail(userId);
 			LoginSingleton.instance().setUser(user);
-		}
-		return loginChecked;
-		
+		}			
+		return loginChecked.get();
+
 	} 
 
 	@Override
