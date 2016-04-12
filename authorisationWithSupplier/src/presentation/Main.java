@@ -16,33 +16,35 @@ public class Main {
 
 	public static void main(String[] args) {
 
-	
-	
-	
-	OrganisationAPI organisationAPI = new OrganisationAPIImpl();
-	System.out.println(organisationAPI.getAllChildren(0));
-	System.out.println(organisationAPI.getOrganisationWithNoParents());
-	System.out.println(organisationAPI.searchOrganization("sko"));
-	
-	SecurityAPI securityAPI = new SecurityAPIImpl();
-	System.out.println(securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
-	
-	Controller controller = new ControllerImpl();
-	User user = new UserImpl();
-//	
-	user.setEmail("jesp@me.com");
-	try {
-		user.setAndEncryptPassword("123");
-	} catch (NoSuchAlgorithmException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	System.out.println(user.getEncryptedPassword());
-//	System.out.println(user);
-//	System.out.println(user.getEncryptedPassword());	
-//	controller.createUser(user);
-	
-System.out.println(securityAPI.login(user.getEmail(), user.getEncryptedPassword()));	
-System.out.println(securityAPI.getIdOfUserLoggedIn());
+
+
+
+		OrganisationAPI organisationAPI = new OrganisationAPIImpl();
+		System.out.println(organisationAPI.getAllChildren(0));
+		System.out.println(organisationAPI.getOrganisationWithNoParents());
+		System.out.println(organisationAPI.searchOrganization("sko"));
+
+		SecurityAPI securityAPI = new SecurityAPIImpl();
+		System.out.println(securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
+
+		Controller controller = new ControllerImpl();
+		User user = new UserImpl();
+		//	
+		user.setEmail("jesp@me.com");
+		try {
+			user.setAndEncryptPassword("123");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(user.getEncryptedPassword());
+		//	System.out.println(user);
+		//	System.out.println(user.getEncryptedPassword());	
+		//	controller.createUser(user);
+
+		System.out.println(securityAPI.login(user.getEmail(), user.getEncryptedPassword()));	
+		System.out.println(securityAPI.getIdOfUserLoggedIn());
+		
+		System.out.println("has access?"  + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
 	}
 }

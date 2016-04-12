@@ -40,4 +40,19 @@ public class LogicTrans<T> {
 			
 		}
 	}
+	
+	
+	
+	public void transaction(Runnable runnable) { // better
+		try {
+			runnable.run();
+			dataaccess.commit();
+		} catch (Exception e) {
+			dataaccess.rollback();
+			throw new RuntimeException("Transaction rolled back", e);
+		} finally {
+			dataaccess.close();
+			
+		}
+	}
 }

@@ -6,7 +6,6 @@ import java.util.Optional;
 import domain.Organisation;
 import domain.Permission;
 import domain.User;
-import domain.UserImpl;
 import domain.UserPermission;
 import exception.PersistenceFailureException;
 import persistence.DataAccess;
@@ -29,27 +28,15 @@ public class SecurityAPIImpl implements SecurityAPI {
 	@Override
 	public boolean login(String userId, String encryptedPassword) throws PersistenceFailureException {		
 		DataAccess da = new DataAccessImpl();
-		return new LogicTrans<Boolean>(da).transaction(()->checkUser(userId, encryptedPassword));	
+		return new LogicTrans<Boolean>(da).transaction(()->checkUser(da, userId, encryptedPassword));	
 	}
 	
-	private boolean checkUser(String userId, String encryptedPassword) {
-		//boolean loginChecked = false;
-		DataAccess dataAccess =  new DataAccessImpl();		
-
-//		Optional<User> loginUser = securityMapper.getUser(encryptedPassword, dataAccess);
+	private boolean checkUser(DataAccess dataAccess, String userId, String encryptedPassword) {
+	
 		Optional<Boolean> loginChecked = securityMapper.login(userId, encryptedPassword, dataAccess);
-//		if (loginUser.isPresent()) {
-//			loginChecked = true;
-//			User user = new UserImpl();
-//			user.setEmail(userId);
-//			LoginSingleton.instance().setUser(user);
-//		}
-//		return loginChecked;
-//		
+
 		if(loginChecked.get()==true){
-			User user = new UserImpl();
-			user.setEmail(userId);
-			LoginSingleton.instance().setUser(user);
+			LoginSingleton.instance().setUserEmail(userId);
 		}			
 		return loginChecked.get();
 
@@ -64,7 +51,11 @@ public class SecurityAPIImpl implements SecurityAPI {
 
 	@Override
 	public String getIdOfUserLoggedIn() throws PersistenceFailureException {
-		return LoginSingleton.instance().getUser().getEmail();
+		if(LoginSingleton.instance().getUserEmail() != null){
+			return LoginSingleton.instance().getUserEmail();
+		}else{
+			throw new RuntimeException("getIdOfUserLoggedIn() : No loggedIn user found");
+		}		
 	}
 
 	@Override
@@ -95,6 +86,19 @@ public class SecurityAPIImpl implements SecurityAPI {
 		return new LogicTrans<Optional<Boolean>>(dataAccess).transaction(()-> securityMapper.hasUserAccessToOrganisationUnit(email, permissionId, organisationId, dataAccess));
 	
 	}
-
 	
 }
+
+//boolean loginChecked = false;
+//DataAccess dataAccess =  new DataAccessImpl();		
+
+//Optional<User> loginUser = securityMapper.getUser(encryptedPassword, dataAccess);
+//Optional<Boolean> loginChecked = securityMapper.login(userId, encryptedPassword, dataAccess);
+//if (loginUser.isPresent()) {
+//	loginChecked = true;
+//	User user = new UserImpl();
+//	user.setEmail(userId);
+//	LoginSingleton.instance().setUser(user);
+//}
+//return loginChecked;
+//

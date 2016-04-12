@@ -1,20 +1,11 @@
 package logic;
 
-import java.util.List;
 import java.util.Optional;
 
-import api.OrganisationAPI;
-import api.OrganisationAPIImpl;
-import api.SecurityAPI;
-import api.SecurityAPIImpl;
 import domain.Organisation;
-import domain.OrganisationImpl;
 import domain.Permission;
 import domain.Role;
 import domain.User;
-import domain.UserPermission;
-import exception.PersistenceConnectionFailureException;
-import exception.PersistenceFailureException;
 import persistence.Crud;
 import persistence.DataAccess;
 import persistence.DataAccessImpl;
@@ -38,9 +29,12 @@ public class ControllerImpl implements Controller {
 	@Override
 	public void createOrganisation(Organisation organisation) {
 		DataAccess dataAccess = new DataAccessImpl();
-
-		new LogicTrans<Organisation>(dataAccess)
-		.transaction(d -> organisationCrud.create(dataAccess, d), organisation);
+//
+//		new LogicTrans<Organisation>(dataAccess)
+//		.transaction(d -> organisationCrud.create(dataAccess, d), organisation);
+//		
+		new LogicTrans<>(dataAccess)
+		.transaction(() -> organisationCrud.create(dataAccess, organisation));
 
 	}
 

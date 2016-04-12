@@ -1,10 +1,8 @@
 package util;
 
-import domain.User;
-
 public class LoginSingleton {
 	private static LoginSingleton userloggedin = new LoginSingleton();
-	private User user = null;
+	private String userEmail = null;
 	
 	private LoginSingleton() {
 	}
@@ -13,11 +11,11 @@ public class LoginSingleton {
 		return userloggedin;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 }
