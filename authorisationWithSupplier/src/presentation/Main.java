@@ -20,12 +20,12 @@ public class Main {
 
 
 		OrganisationAPI organisationAPI = new OrganisationAPIImpl();
-		System.out.println(organisationAPI.getAllChildren(0));
-		System.out.println(organisationAPI.getOrganisationWithNoParents());
-		System.out.println(organisationAPI.searchOrganization("sko"));
+		System.out.println("******* get all children of organisation id - 0 : \n" + organisationAPI.getAllChildren(0));
+		System.out.println("******* organisation without parents : \n" + organisationAPI.getOrganisationWithNoParents());
+		System.out.println("******* organisation with name - sko \n" + organisationAPI.searchOrganization("sko"));
 
 		SecurityAPI securityAPI = new SecurityAPIImpl();
-		System.out.println(securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
+		System.out.println("******* juy@me.com : has Access : \n" + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
 
 		Controller controller = new ControllerImpl();
 		User user = new UserImpl();
@@ -37,14 +37,14 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(user.getEncryptedPassword());
+		System.out.println("******* encrypted password : \n" + user.getEncryptedPassword());
 		//	System.out.println(user);
 		//	System.out.println(user.getEncryptedPassword());	
 		//	controller.createUser(user);
 
-		System.out.println(securityAPI.login(user.getEmail(), user.getEncryptedPassword()));	
-		System.out.println(securityAPI.getIdOfUserLoggedIn());
+		System.out.println("******* login : \n" + securityAPI.login(user.getEmail(), user.getEncryptedPassword()));	
+		System.out.println("******* check logged in user id : \n" + securityAPI.getIdOfUserLoggedIn());
 		
-		System.out.println("has access?"  + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
+		System.out.println( "******* " + user.getEmail() + " has access? : \n"  + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
 	}
 }

@@ -11,6 +11,12 @@ import exception.PersistenceFailureException;
 import persistence.DataAccess;
 
 public interface SecurityAPI {
+	/**
+	 * 
+	 * @param email
+	 * @return List<UserPermission>
+	 * @throws PersistenceFailureException
+	 */
 
 	public List<UserPermission> fetchAllUserPermissions(String email) throws PersistenceFailureException;
 	

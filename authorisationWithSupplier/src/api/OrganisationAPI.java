@@ -6,7 +6,20 @@ import java.util.Optional;
 import domain.Organisation;
 import exception.PersistenceFailureException;
 
+/**
+ * Organisation api
+ * 
+ * @author Juyoung Choi
+ *
+ */
+
 public interface OrganisationAPI {
+	/**
+	 * 
+	 * @param organisationID
+	 * @return
+	 * @throws PersistenceFailureException
+	 */
 	public List<Organisation> getChildren(int organisationID) throws PersistenceFailureException;
 
 	public List<Organisation> getOrganisationWithNoParents() throws PersistenceFailureException;
