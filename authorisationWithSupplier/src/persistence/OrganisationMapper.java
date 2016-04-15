@@ -16,8 +16,9 @@ public interface OrganisationMapper {
 	public List<Integer> getAllChildren(int organisationId,  DataAccess dataAccess) throws PersistenceFailureException;
 	
 	public Optional<Organisation> getOrganizationUnit(int organisationId,  DataAccess dataAccess) throws PersistenceFailureException;
-	
-	
+		
 	public List<Organisation> searchOrganization(String search,  DataAccess dataAccess) throws PersistenceFailureException;
+	
+	public List<Organisation> getAllOrganisation(DataAccess dataAccess)throws PersistenceFailureException;
 	
 }

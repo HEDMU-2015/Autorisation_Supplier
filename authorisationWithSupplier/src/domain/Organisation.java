@@ -13,5 +13,13 @@ public interface Organisation {
 	String getName();
 
 	void setName(String name);
+	
+	String getParentName();
+	
+	void setParentName(String parentName);
+	
+	int getLevel();
+
+	void setLevel(int level);
 
 }

@@ -30,4 +30,5 @@ public interface OrganisationAPI {
 	
 	public List<Organisation> searchOrganization(String search) throws PersistenceFailureException;
 	
+	public List<Organisation> getAllOrganisation() throws PersistenceFailureException;
 }

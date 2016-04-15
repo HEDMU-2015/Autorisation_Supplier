@@ -52,7 +52,17 @@ public class OrganisationAPIImpl implements OrganisationAPI {
 		} else {
 			throw new RuntimeException("Search String is too short.");
 		}	
+	}
+
+	@Override
+	public List<Organisation> getAllOrganisation() throws PersistenceFailureException {
+		DataAccess dataAccess =  new DataAccessImpl();		
+		return new LogicTrans<List<Organisation>>(dataAccess).transaction(()-> organisationMapper.getAllOrganisation(dataAccess));
+
 	}	
+	
+	
+	
 }
 
 //private String searchStringCheck(String search){
