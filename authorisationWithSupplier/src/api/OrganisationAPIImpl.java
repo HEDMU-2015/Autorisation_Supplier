@@ -37,9 +37,10 @@ public class OrganisationAPIImpl implements OrganisationAPI {
 	}
 
 	@Override
-	public Optional<Organisation> getOrganizationUnit(int organisationId) throws PersistenceFailureException {
+	public Organisation getOrganizationUnit(int organisationId) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<Optional<Organisation>>(dataAccess).transaction(()-> organisationMapper.getOrganizationUnit(organisationId, dataAccess));
+		return new LogicTrans<Optional<Organisation>>(dataAccess)
+				.transaction(()-> organisationMapper.getOrganizationUnit(organisationId, dataAccess)).get();
 
 	}
 

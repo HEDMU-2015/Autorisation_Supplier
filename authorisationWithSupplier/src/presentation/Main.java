@@ -7,6 +7,8 @@ import api.OrganisationAPI;
 import api.OrganisationAPIImpl;
 import api.SecurityAPI;
 import api.SecurityAPIImpl;
+import domain.Organisation;
+import domain.OrganisationImpl;
 import domain.User;
 import domain.UserImpl;
 import logic.Controller;
@@ -46,5 +48,14 @@ public class Main {
 		System.out.println("******* check logged in user id : \n" + securityAPI.getIdOfUserLoggedIn());
 		
 		System.out.println( "******* " + user.getEmail() + " has access? : \n"  + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
+	
+		
+		Organisation organisation = new OrganisationImpl();
+		organisation.setName("ParkSkolen");
+		organisation.setParentID(2);
+//		controller.createOrganisation(organisation);
+		System.out.println("******* create organisation : \n" + controller.readOrganisation(7));
+
+	
 	}
 }

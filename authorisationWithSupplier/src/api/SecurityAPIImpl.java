@@ -21,7 +21,8 @@ public class SecurityAPIImpl implements SecurityAPI {
 	@Override
 	public List<UserPermission> fetchAllUserPermissions(String email) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<List<UserPermission>>(dataAccess).transaction(()-> securityMapper.fetchAllUserPermissions(email, dataAccess));
+		return new LogicTrans<List<UserPermission>>(dataAccess)
+				.transaction(()-> securityMapper.fetchAllUserPermissions(email, dataAccess));
 	
 	}
 
@@ -43,9 +44,10 @@ public class SecurityAPIImpl implements SecurityAPI {
 	} 
 
 	@Override
-	public Optional<User> getUser(String userId) throws PersistenceFailureException {
+	public User getUser(String userId) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<Optional<User>>(dataAccess).transaction(()-> securityMapper.getUser(userId, dataAccess));
+		return new LogicTrans<Optional<User>>(dataAccess)
+				.transaction(()-> securityMapper.getUser(userId, dataAccess)).get();
 	
 	}
 
@@ -59,31 +61,35 @@ public class SecurityAPIImpl implements SecurityAPI {
 	}
 
 	@Override
-	public Optional<Permission> getPermission(int permissionId) throws PersistenceFailureException {
+	public Permission getPermission(int permissionId) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<Optional<Permission>>(dataAccess).transaction(()-> securityMapper.getPermission(permissionId, dataAccess));
+		return new LogicTrans<Optional<Permission>>(dataAccess)
+				.transaction(()-> securityMapper.getPermission(permissionId, dataAccess)).get();
 	
 	}
 
 	@Override
-	public Optional<Permission> getPermission(String permissionName) throws PersistenceFailureException {
+	public Permission getPermission(String permissionName) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<Optional<Permission>>(dataAccess).transaction(()-> securityMapper.getPermission(permissionName, dataAccess));
+		return new LogicTrans<Optional<Permission>>(dataAccess)
+				.transaction(()-> securityMapper.getPermission(permissionName, dataAccess)).get();
 	
 	}
 
 	@Override
-	public Optional<Organisation> getOrganisationUnitForUserPermission(String userId, int userPermissionId)
+	public Organisation getOrganisationUnitForUserPermission(String userId, int userPermissionId)
 			throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<Optional<Organisation>>(dataAccess).transaction(()-> securityMapper.getOrganisationUnitForUserPermission(userId, userPermissionId, dataAccess));
+		return new LogicTrans<Optional<Organisation>>(dataAccess)
+				.transaction(()-> securityMapper.getOrganisationUnitForUserPermission(userId, userPermissionId, dataAccess)).get();
 	
 	}
 
 	@Override
-	public Optional<Boolean> hasUserAccessToOrganisationUnit(String email, int permissionId, int organisationId) throws PersistenceFailureException {
+	public boolean hasUserAccessToOrganisationUnit(String email, int permissionId, int organisationId) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
-		return new LogicTrans<Optional<Boolean>>(dataAccess).transaction(()-> securityMapper.hasUserAccessToOrganisationUnit(email, permissionId, organisationId, dataAccess));
+		return new LogicTrans<Optional<Boolean>>(dataAccess)
+				.transaction(()-> securityMapper.hasUserAccessToOrganisationUnit(email, permissionId, organisationId, dataAccess)).get();
 	
 	}
 	
