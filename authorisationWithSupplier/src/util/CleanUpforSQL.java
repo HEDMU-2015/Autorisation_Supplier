@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CleanUpforSQL {
+	
 	public void cleanup(ResultSet rs, PreparedStatement stmt) {
 		if (rs != null) {
 			try {

@@ -14,7 +14,7 @@ public class PermissionCrudImpl implements Crud<Permission, Integer> {
 
 	private final static String CREATE_PERMISSION = "INSERT INTO permission(name) VALUES(?)";
 	private final static String DELETE_PERMISSION = "DELETE FROM permission WHERE id = ?";
-	private final static String READ_PERMISSION = "SELECT FROM permission WHERE id = ?";
+	private final static String READ_PERMISSION = "SELECT * FROM permission WHERE id = ?";
 	private final static String UPDATE_PERMISSION = "UPDATE permission SET name = ? WHERE id = ?";
 	private CleanUpforSQL cleanup = new CleanUpforSQL();
 	@Override
