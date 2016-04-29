@@ -22,15 +22,15 @@ public class OrganisationMapperImpl implements OrganisationMapper {
 	private final static String FETCH_ORGANISATION_UNIT = "SELECT * FROM organisation WHERE id = ?";
 	private final static String SEARCH_ORGANISATIONS = "SELECT * FROM organisation"
 			+ " where UPPER(name) LIKE ? ORDER BY id";
-//	private final static String FETCH_ALL =  "WITH RECURSIVE tree (level, parent, child, name) "
-//			+ "AS (SELECT 1, parentid AS parent, id AS child, name FROM organisation where parentid IS NULL "
-//			+ "UNION SELECT level + 1, parentid, id, name FROM organisation, tree WHERE parentid = child) "
-//			+ "SELECT * FROM tree";
+	private final static String FETCH_ALL =  "WITH RECURSIVE tree (level, parent, child, name) "
+			+ "AS (SELECT 1, parentid AS parent, id AS child, name FROM organisation where parentid IS NULL "
+			+ "UNION SELECT level + 1, parentid, id, name FROM organisation, tree WHERE parentid = child) "
+			+ "SELECT * FROM tree";
 
-	private final static String FETCH_ALL = " SELECT parentid, parentName, id, name FROM organisation ,"
-			+ " (Select id, name as parentName from organisation) parent"
-			+ " where organisation.parentid = parent.id";
-	
+//	private final static String FETCH_ALL = " SELECT parentid, parentName, id, name FROM organisation ,"
+//			+ " (Select id, name as parentName from organisation) parent"
+//			+ " where organisation.parentid = parent.id";
+//	
 	private CleanUpforSQL cleanup = new CleanUpforSQL();
 
 
@@ -168,13 +168,13 @@ public class OrganisationMapperImpl implements OrganisationMapper {
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {				
 				Organisation organisation = new OrganisationImpl();
-//				organisation.setLevel(resultSet.getInt("level"));
-//				organisation.setId(resultSet.getInt("child"));
-				organisation.setId(resultSet.getInt("id"));
+				organisation.setLevel(resultSet.getInt("level"));
+				organisation.setId(resultSet.getInt("child"));
+//				organisation.setId(resultSet.getInt("id"));
 
 				organisation.setName(resultSet.getString("name"));
-				organisation.setParentID(resultSet.getInt("parentID"));
-				organisation.setParentName(resultSet.getString("parentName"));
+				organisation.setParentID(resultSet.getInt("parent"));
+//				organisation.setParentName(resultSet.getString("parentName"));
 				allOrganisation.add(organisation);			
 			}
 		} catch (SQLException exc) {

@@ -86,10 +86,10 @@ public class SecurityAPIImpl implements SecurityAPI {
 	}
 
 	@Override
-	public boolean hasUserAccessToOrganisationUnit(String email, int permissionId, int organisationId) throws PersistenceFailureException {
+	public Optional<Boolean> hasUserAccessToOrganisationUnit(String email, int permissionId, int organisationId) throws PersistenceFailureException {
 		DataAccess dataAccess =  new DataAccessImpl();		
 		return new LogicTrans<Optional<Boolean>>(dataAccess)
-				.transaction(()-> securityMapper.hasUserAccessToOrganisationUnit(email, permissionId, organisationId, dataAccess)).get();
+				.transaction(()-> securityMapper.hasUserAccessToOrganisationUnit(email, permissionId, organisationId, dataAccess));
 	
 	}
 	

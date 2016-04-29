@@ -47,15 +47,15 @@ public class Main {
 		System.out.println("******* login : \n" + securityAPI.login(user.getEmail(), user.getEncryptedPassword()));	
 		System.out.println("******* check logged in user id : \n" + securityAPI.getIdOfUserLoggedIn());
 		
-		System.out.println( "******* " + user.getEmail() + " has access? : \n"  + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 0, 5));
+		System.out.println( "******* " + user.getEmail() + " has access? : \n"  + securityAPI.hasUserAccessToOrganisationUnit("juy@me.com", 5, 0));
 	
 		
 		Organisation organisation = new OrganisationImpl();
-		organisation.setName("ParkSkolen");
-		organisation.setParentID(2);
+//		organisation.setName("ParkSkolen");
+//		organisation.setParentID(2);
 //		controller.createOrganisation(organisation);
-		System.out.println("******* create organisation : \n" + controller.readOrganisation(7));
+//		System.out.println("******* create organisation : \n" + controller.readOrganisation(4));
 
-	
+		System.out.println(organisationAPI.getAllOrganisation());
 	}
 }

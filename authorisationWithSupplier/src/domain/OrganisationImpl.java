@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OrganisationImpl implements Organisation {
 
 	private int id;
@@ -7,6 +10,24 @@ public class OrganisationImpl implements Organisation {
 	private String name;
 	private String parentName;
 	private int level;
+	
+	Map<Integer, Organisation> children = new HashMap<>();
+	
+	@Override
+	public void addChild(Integer id, Organisation organisation) {
+		this.children.put(id, organisation);
+	}
+	
+	@Override
+	public Map<Integer, Organisation> getChildren() {
+		return children;
+	}
+	
+	@Override
+	public void setChildren(Map<Integer, Organisation> children) {
+		this.children = children;
+	}
+
 
 	@Override
 	public int getId() {

@@ -1,6 +1,7 @@
 package api;
 
 import java.util.List;
+import java.util.Optional;
 
 import domain.Organisation;
 import domain.Permission;
@@ -30,6 +31,6 @@ public interface SecurityAPI {
  	
  	public Organisation getOrganisationUnitForUserPermission(String userId, int userPermissionId) throws PersistenceFailureException; 
 
-	public boolean hasUserAccessToOrganisationUnit(String email, int permissionId, int organisationId) throws PersistenceFailureException;
+	public Optional<Boolean> hasUserAccessToOrganisationUnit(String email, int permissionId, int organisationId) throws PersistenceFailureException;
 
 }

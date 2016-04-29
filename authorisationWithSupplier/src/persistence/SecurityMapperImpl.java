@@ -27,7 +27,11 @@ public class SecurityMapperImpl implements SecurityMapper {
 	private final static String LOGIN_CHECK = "SELECT * FROM user WHERE email = ? AND password = ?";
 	private final static String ORGANISATION_FOR_USER = "SELECT email, organisationid FROM userpermission "
 			+ "where email = ? AND id = ?";
-	private final static String CHECK_USER_ACCESS = "SELECT * FROM userpermission where email = ? AND permissionid = ? AND organisationid = ?";
+//	private final static String CHECK_USER_ACCESS = "SELECT * FROM userpermission where email = ? AND permissionid = ? AND organisationid = ?";
+	private final static String CHECK_USER_ACCESS = "SELECT organisationID from UserPermission where email = ? AND permissionid = ? "
+			+ "UNION select organisationid from UserRole "
+			+ "inner join RolePermission on UserRole.roleid = Rolepermission.roleid "
+			+ "where userrole.email = ? AND rolepermission.permissionid = ?";
 
 	private CleanUpforSQL cleanup = new CleanUpforSQL();
  
@@ -193,17 +197,36 @@ public class SecurityMapperImpl implements SecurityMapper {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		Optional<Boolean> access = Optional.empty();
+		List<Integer> organisationIDs = new ArrayList<>();
+		OrganisationMapper organisationMapper = new OrganisationMapperImpl();
+		List<Integer> organisationChildrenIDs = new ArrayList<>();
+
+		
 
 		try {
 			statement = dataAccess.getConnection().prepareStatement(CHECK_USER_ACCESS);
 			statement.setString(1, email);
 			statement.setInt(2, permissionId);
-			statement.setInt(3, organisationId);
+			statement.setString(3, email);
+			statement.setInt(4, permissionId);
 			resultSet = statement.executeQuery();
-			if (resultSet.next()) {
+			
+			while (resultSet.next()){
+				organisationIDs.add(resultSet.getInt("organisationID"));
+				organisationChildrenIDs.addAll(organisationMapper.getAllChildren(organisationId, dataAccess));
+			}
+			
+			if(organisationIDs.contains(organisationId)){
 				boolean access1 = true;
 				access = Optional.of(access1);
+			}else if(organisationChildrenIDs.contains(organisationId)){
+				boolean access1 = true;
+				access = Optional.of(access1);			
 			}
+//			if (resultSet.next()) {
+//				boolean access1 = true;
+//				access = Optional.of(access1);
+//			}
 		} catch (SQLException exc) {
 			throw new PersistenceFailureException("Query has failed");
 		} finally {
